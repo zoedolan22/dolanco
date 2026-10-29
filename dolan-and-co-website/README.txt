@@ -1,8 +1,8 @@
 DOLAN & CO WEBSITE
 ==================
 
-This folder is a finished static website. It has no build step and no
-dependencies. Every page is its own HTML file.
+The folder dolan-and-co-website is the finished site. It has no build step
+and no dependencies. Every page is its own HTML file.
 
 PAGES
   index.html              Home
@@ -23,21 +23,18 @@ SHARED FILES
   images/      Your portrait and all the campaign work
 
 
-PUT IT ON GITHUB PAGES
+UPDATE THE LIVE SITE (zoedolan22/dolanco)
   1. Unzip this package on your computer.
-  2. Open your zoedolan22.github.io repository on github.com.
+  2. Open github.com/zoedolan22/dolanco.
   3. Choose Add file, then Upload files.
-  4. Drag in everything inside the unzipped folder: the HTML files,
-     the three CSS files, site.js, and the fonts and images folders.
-     Upload the contents, not the zip itself.
-  5. If you want to clear out the old site first, delete the old files
-     from the repository, then upload these.
-  6. Commit the changes. GitHub Pages publishes within a minute or two.
+  4. Drag the dolan-and-co-website folder into the page. GitHub replaces
+     the files that have the same names.
+  5. Commit the changes.
+  6. The deploy workflow starts on its own. It takes about 30 seconds.
+     Watch it under the Actions tab. The site is at
+     zoedolan22.github.io/dolanco/
 
-The 404.html page uses links that start at the root of the site, so it
-works on zoedolan22.github.io and on a custom domain. If you ever host
-the site inside a sub folder, those links in 404.html need that folder
-name added.
+Keep README.txt out of the upload. It stays on your computer.
 
 
 THE CONTACT FORM
@@ -51,6 +48,12 @@ visitor can write to you directly.
 
 To change where messages go, open contact.html and site.js, and replace
 zoedolan22@gmail.com in the form action and the error message.
+
+
+IF THE SITE MOVES TO ITS OWN DOMAIN
+404.html uses links that start with /dolanco/ because the site lives at
+zoedolan22.github.io/dolanco/. On a domain of its own, open 404.html in a
+text editor and replace every /dolanco/ with a single / and save.
 
 
 CHANGING TEXT
