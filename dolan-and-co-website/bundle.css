@@ -1,4 +1,4 @@
-/* Dolan & Co components. Every value reads a token from tokens.css. */
+/* Dolan & Co components. Every value reads a token from tokens.css. Shapes and spacing follow the Shape (madebyshape) geometry: pills, circles, large radii, inset bands. */
 body { margin: 0; background: var(--surface); color: var(--ink); font-family: var(--font-body); }
 
 /* Display, heading, numeral, button and label styles are set in capitals. */
@@ -8,13 +8,21 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
 .zb-stack { display: flex; flex-direction: column; gap: var(--space-5); }
 .zb-row { display: flex; flex-wrap: wrap; gap: var(--space-5); align-items: center; }
 .zb-pad { padding: var(--space-6); }
+/* A wide page: label column on the left (3 of 12), content from column 4 */
+.zb-split { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: var(--space-7); align-items: start; }
+/* First line of a large statement starts a quarter of the way in */
+.zb-indent { text-indent: 25%; }
+/* A leaf: three round corners and one tight corner at the bottom left */
+.zb-leaf { border-radius: var(--radius-block) var(--radius-block) var(--radius-block) var(--radius-tight); }
 
-/* Section: sets the colours its children read */
+/* Section: an inset rounded band that sets the colours its children read */
 .zb-section {
   --zb-bg: var(--surface); --zb-fg: var(--ink); --zb-headline: var(--ink); --zb-accent-word: var(--accent-word);
   --zb-rule: var(--line); --zb-focus: var(--focus-ring);
   position: relative; box-sizing: border-box; overflow: clip;
-  padding: var(--space-9) var(--space-7);
+  margin: var(--space-4);
+  padding: var(--space-10) var(--space-7);
+  border-radius: var(--radius-block);
   background: var(--zb-bg); color: var(--zb-fg);
 }
 .zb-section--periwinkle {
@@ -37,61 +45,103 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
 .zb-wordmark { color: inherit; white-space: nowrap; }
 .zb-wordmark__co { font-family: var(--font-accent); font-style: italic; font-weight: 400; font-size: 0.5em; letter-spacing: 0; text-transform: none; }
 
-/* Headline */
+/* Headline. Sections are inset bands, so a headline stays inside its band and bleed has no effect. */
 .zb-headline { margin: 0; color: var(--zb-headline, var(--ink)); overflow-wrap: break-word; }
-.zb-headline--bleed { margin-left: calc((100% - 100vw) / 2); padding-left: var(--space-5); }
 .zb-headline .zb-accent { text-transform: none; color: var(--zb-accent-word, var(--accent-word)); }
 
-/* Tag */
+/* Tag: a pill label, or a dot label with no fill */
 .zb-tag {
-  display: inline-block; padding: var(--space-2) var(--space-3); border-radius: var(--radius-none);
+  display: inline-block; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill);
   background: var(--zb-tag-bg, var(--ink)); color: var(--zb-tag-fg, var(--on-ink));
 }
 .zb-tag--accent { background: var(--accent); color: var(--on-accent); }
 .zb-tag--periwinkle { background: var(--surface-accent); color: var(--on-periwinkle); }
 .zb-tag--panel { background: var(--surface-panel); color: var(--on-panel); }
+.zb-tag--dot { display: inline-flex; align-items: center; gap: var(--space-2); padding: 0; border-radius: 0; background: none; color: inherit; }
+.zb-tag--dot::before { content: ""; flex: none; width: var(--space-2); height: var(--space-2); border-radius: 50%; background: currentColor; }
 
-/* Button */
+/* Button: a pill. With an arrow it becomes the joined button: a pill and a circle pinched together by a short neck. */
 .zb-button {
-  display: inline-flex; align-items: center; gap: var(--space-2); box-sizing: border-box; cursor: pointer; text-decoration: none;
-  padding: var(--space-4) var(--space-5); border-radius: var(--radius-none);
-  border: var(--border-outline) solid var(--zb-btn-bg, var(--ink));
+  --zb-btn-h: 48px;
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  box-sizing: border-box; min-height: var(--zb-btn-h); padding: 0 var(--space-5);
+  cursor: pointer; text-decoration: none; white-space: nowrap;
+  border: var(--border-outline) solid var(--zb-btn-bg, var(--ink)); border-radius: var(--radius-pill);
   background: var(--zb-btn-bg, var(--ink)); color: var(--zb-btn-fg, var(--on-ink));
 }
 .zb-button--accent { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
-.zb-button--quiet {
-  background: transparent; color: var(--zb-btn-fg-quiet, var(--ink)); border-color: var(--zb-btn-fg-quiet, var(--ink));
-}
-.zb-button:not([disabled]):not([aria-disabled="true"]):hover { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
-.zb-button--accent:not([disabled]):not([aria-disabled="true"]):hover { border-color: var(--zb-btn-bg, var(--ink)); background: var(--zb-btn-bg, var(--ink)); color: var(--zb-btn-fg, var(--on-ink)); }
+.zb-button--quiet { background: transparent; border-color: transparent; color: var(--zb-btn-fg-quiet, var(--ink)); }
+.zb-button__arrow { display: inline-flex; }
+.zb-button:not(.zb-button--joined):not([disabled]):not([aria-disabled="true"]):hover { border-color: var(--accent); background: var(--accent); color: var(--on-accent); }
+.zb-button--accent:not(.zb-button--joined):not([disabled]):not([aria-disabled="true"]):hover { border-color: var(--zb-btn-bg, var(--ink)); background: var(--zb-btn-bg, var(--ink)); color: var(--zb-btn-fg, var(--on-ink)); }
 .zb-button:focus-visible { outline: var(--focus-width) solid var(--zb-focus, var(--focus-ring)); outline-offset: var(--focus-offset); }
 .zb-button[disabled], .zb-button[aria-disabled="true"] {
   background: transparent; border: var(--border-outline) dashed var(--ink-muted); color: var(--ink-muted); cursor: not-allowed;
 }
 
-/* NumberedItem */
+/* Joined button parts */
+.zb-button.zb-button--joined {
+  isolation: isolate; border: 0; background: transparent;
+  padding: 0 calc(var(--zb-btn-h) + var(--space-1) + var(--space-5)) 0 var(--space-5);
+}
+.zb-button__goo { position: absolute; inset: 0; z-index: -1; pointer-events: none; filter: url(#zb-goo); }
+.zb-button__pill {
+  position: absolute; top: 0; bottom: 0; left: 0; right: calc(var(--zb-btn-h) + var(--space-1));
+  border-radius: var(--radius-pill); background: var(--zb-btn-bg, var(--ink));
+}
+.zb-button__orb {
+  position: absolute; top: 0; right: 0; width: var(--zb-btn-h); height: var(--zb-btn-h);
+  border-radius: 50%; background: var(--zb-btn-bg, var(--ink));
+}
+.zb-button__icon {
+  position: absolute; top: 0; right: 0; width: var(--zb-btn-h); height: var(--zb-btn-h);
+  display: flex; align-items: center; justify-content: center;
+}
+.zb-button--accent .zb-button__pill, .zb-button--accent .zb-button__orb { background: var(--accent); }
+.zb-button--joined:hover { color: var(--on-accent); }
+.zb-button--joined:hover .zb-button__pill, .zb-button--joined:hover .zb-button__orb { background: var(--accent); }
+.zb-button--accent.zb-button--joined:hover { color: var(--zb-btn-fg, var(--on-ink)); }
+.zb-button--accent.zb-button--joined:hover .zb-button__pill, .zb-button--accent.zb-button--joined:hover .zb-button__orb { background: var(--zb-btn-bg, var(--ink)); }
+
+/* NumberedItem: a numbered circle, a title and a paragraph */
 .zb-item { display: flex; flex-direction: column; gap: var(--space-3); color: var(--zb-fg, var(--ink)); }
 .zb-item__n {
   display: flex; align-items: center; justify-content: center; width: var(--space-7); height: var(--space-7);
-  border-radius: var(--radius-none); background: var(--zb-tag-bg, var(--ink)); color: var(--zb-tag-fg, var(--on-ink));
+  border-radius: var(--radius-pill); background: var(--zb-tag-bg, var(--ink)); color: var(--zb-tag-fg, var(--on-ink));
 }
 .zb-item__n--accent { background: var(--accent); color: var(--on-accent); }
 .zb-item__n--periwinkle { background: var(--surface-accent); color: var(--on-periwinkle); }
 .zb-item__title { margin: 0; }
 .zb-item__body { max-width: 36ch; }
 
-/* Card */
+/* Card: a 32px rounded block. The notch is a circular bite out of the top right corner holding an arrow circle. */
 .zb-card {
-  display: flex; flex-direction: column; gap: var(--space-4); box-sizing: border-box; padding: var(--space-6);
-  border-radius: var(--radius-card); border: var(--border-outline) solid transparent;
+  --zb-card-bg: var(--surface); --zb-card-fg: var(--ink); --zb-card-line: var(--line);
+  --zb-orb-bg: var(--ink); --zb-orb-fg: var(--on-ink);
+  position: relative; isolation: isolate; display: flex; flex-direction: column; gap: var(--space-4);
+  box-sizing: border-box; padding: var(--space-6);
+  border-radius: var(--radius-card); border: var(--border-outline) solid var(--zb-card-line);
+  background: var(--zb-card-bg); color: var(--zb-card-fg);
 }
-.zb-card--plain { background: var(--surface); color: var(--ink); border-color: var(--line); }
 .zb-card--plain .zb-card__label { color: var(--ink-muted); }
-.zb-card--panel { background: var(--surface-panel); color: var(--on-panel); border-color: var(--surface-panel); }
-[data-theme="dark"] .zb-card--panel { border-color: var(--line); }
-.zb-card--periwinkle { background: var(--surface-accent); color: var(--on-periwinkle); border-color: var(--surface-accent); }
-.zb-card--accent { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
-.zb-card--ink { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+.zb-card--panel { --zb-card-bg: var(--surface-panel); --zb-card-fg: var(--on-panel); --zb-card-line: var(--surface-panel); --zb-orb-bg: var(--parchment); --zb-orb-fg: var(--deep-space-blue); }
+[data-theme="dark"] .zb-card--panel { --zb-card-line: var(--line); }
+.zb-card--periwinkle { --zb-card-bg: var(--surface-accent); --zb-card-fg: var(--on-periwinkle); --zb-card-line: var(--surface-accent); --zb-orb-bg: var(--onyx); --zb-orb-fg: var(--parchment); }
+.zb-card--accent { --zb-card-bg: var(--accent); --zb-card-fg: var(--on-accent); --zb-card-line: var(--accent); --zb-orb-bg: var(--onyx); --zb-orb-fg: var(--rose-kiss); }
+.zb-card--ink { --zb-card-bg: var(--ink); --zb-card-fg: var(--on-ink); --zb-card-line: var(--ink); --zb-orb-bg: var(--on-ink); --zb-orb-fg: var(--ink); }
+.zb-card--leaf { border-radius: var(--radius-card) var(--radius-card) var(--radius-card) var(--radius-tight); }
+.zb-card--notch { background: transparent; border-color: transparent; }
+.zb-card--notch::before {
+  content: ""; position: absolute; z-index: -1; box-sizing: border-box; inset: calc(var(--border-outline) * -1);
+  border-radius: inherit; background: var(--zb-card-bg); border: var(--border-outline) solid var(--zb-card-line);
+  -webkit-mask-image: radial-gradient(circle at calc(100% - 32px) 32px, transparent 35px, #000 36px);
+  mask-image: radial-gradient(circle at calc(100% - 32px) 32px, transparent 35px, #000 36px);
+}
+.zb-card__orb {
+  position: absolute; top: var(--space-2); right: var(--space-2); width: var(--space-7); height: var(--space-7);
+  display: flex; align-items: center; justify-content: center; border-radius: 50%;
+  background: var(--zb-orb-bg); color: var(--zb-orb-fg);
+}
 .zb-card__label, .zb-card__title { margin: 0; }
 .zb-card__body > :first-child { margin-top: 0; }
 .zb-card__body > :last-child { margin-bottom: 0; }
@@ -100,33 +150,35 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
 .zb-rules { list-style: none; margin: 0; padding: 0; border-top: var(--border-hairline) solid var(--zb-rule, var(--line)); color: var(--zb-fg, var(--ink)); }
 .zb-rules__row {
   display: grid; grid-template-columns: minmax(120px, 1fr) 2fr; gap: var(--space-5); align-items: baseline;
-  padding: var(--space-4) 0; border-bottom: var(--border-hairline) solid var(--zb-rule, var(--line));
+  padding: var(--space-5) 0; border-bottom: var(--border-hairline) solid var(--zb-rule, var(--line));
 }
 .zb-rules--numbered .zb-rules__row { grid-template-columns: var(--space-8) minmax(120px, 1fr) 2fr; }
 
 /* Nav */
 .zb-nav {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-5);
-  padding: var(--space-4) var(--space-7); background: var(--surface); color: var(--ink);
-  border-bottom: var(--border-hairline) solid var(--line);
+  padding: var(--space-5) var(--space-7); background: var(--surface); color: var(--ink);
 }
 .zb-nav__name { color: inherit; text-decoration: none; }
-.zb-nav__links { display: flex; flex-wrap: wrap; gap: var(--space-4); list-style: none; margin: 0; padding: 0; }
-.zb-nav__link { display: inline-block; padding: var(--space-1) var(--space-2); font-weight: 600; color: var(--ink); text-decoration: none; }
+.zb-nav__links { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; margin: 0; padding: 0; }
+.zb-nav__link { display: inline-block; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill); font-weight: 600; color: var(--ink); text-decoration: none; }
 .zb-nav__link:hover { background: var(--accent); color: var(--on-accent); }
-.zb-nav__link[aria-current="page"] { text-decoration: underline; text-decoration-thickness: var(--focus-width); text-underline-offset: 6px; }
+.zb-nav__link[aria-current="page"] { background: var(--ink); color: var(--on-ink); }
+.zb-nav__link[aria-current="page"]:hover { background: var(--accent); color: var(--on-accent); }
 .zb-nav a:focus-visible { outline: var(--focus-width) solid var(--focus-ring); outline-offset: var(--focus-offset); }
 
-/* Footer */
+/* Footer: an inset rounded panel */
 .zb-footer {
   --zb-focus: var(--focus-ring-on-panel);
-  position: relative; overflow: clip; box-sizing: border-box; padding: var(--space-9) var(--space-7) var(--space-7);
+  position: relative; overflow: clip; box-sizing: border-box; margin: var(--space-4);
+  padding: var(--space-10) var(--space-7) var(--space-7);
+  border-radius: var(--radius-block);
   background: var(--surface-panel); color: var(--on-panel);
 }
 .zb-footer__inner { position: relative; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-5); }
 .zb-footer__note { margin: 0; }
-.zb-footer__links { display: flex; flex-wrap: wrap; gap: var(--space-4); list-style: none; margin: 0 0 0 calc(var(--space-2) * -1); padding: 0; }
-.zb-footer__link { display: inline-block; padding: var(--space-1) var(--space-2); color: var(--on-panel); text-decoration: underline; text-underline-offset: 4px; }
+.zb-footer__links { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; margin: 0 0 0 calc(var(--space-4) * -1); padding: 0; }
+.zb-footer__link { display: inline-block; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill); color: var(--on-panel); text-decoration: underline; text-underline-offset: 4px; }
 .zb-footer__link:hover { background: var(--accent); color: var(--on-accent); text-decoration: none; }
 .zb-footer a:focus-visible { outline: var(--focus-width) solid var(--focus-ring-on-panel); outline-offset: var(--focus-offset); }
 .zb-footer__small { margin: 0; }
@@ -136,18 +188,18 @@ body { margin: 0; background: var(--surface); color: var(--ink); font-family: va
 }
 .zb-footer__inner { z-index: 1; }
 
-/* Field */
+/* Field: a rounded control */
 .zb-field { display: flex; flex-direction: column; gap: var(--space-1); color: var(--ink); }
-.zb-field__label { color: var(--ink); }
+.zb-field__label { color: var(--ink); padding-left: var(--space-4); }
 .zb-field__control {
-  box-sizing: border-box; width: 100%; padding: var(--space-3) var(--space-4); border-radius: var(--radius-none);
+  box-sizing: border-box; width: 100%; padding: var(--space-3) var(--space-5); border-radius: var(--radius-card);
   border: var(--border-outline) solid var(--line); background: var(--surface); color: var(--ink);
 }
 .zb-field__control::placeholder { color: var(--ink-muted); opacity: 1; }
 .zb-field__control:focus-visible { outline: var(--focus-width) solid var(--focus-ring); outline-offset: var(--focus-offset); }
-.zb-field__hint { margin: 0; color: var(--ink-muted); }
+.zb-field__hint { margin: 0; padding-left: var(--space-4); color: var(--ink-muted); }
 .zb-field--error .zb-field__control { border-width: calc(var(--border-outline) * 2); }
-.zb-field__error { margin: 0; padding: var(--space-1) var(--space-2); background: var(--accent); color: var(--on-accent); align-self: flex-start; }
+.zb-field__error { margin: 0; padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); background: var(--accent); color: var(--on-accent); align-self: flex-start; }
 
 /* Hero */
 .zb-hero__kicker, .zb-hero .zb-headline, .zb-hero__intro, .zb-hero__actions { position: relative; z-index: 1; }

@@ -52,9 +52,10 @@
       if (!window.fetch || !window.FormData) return;
       e.preventDefault();
       ok.hidden = true; err.hidden = true;
-      var label = send.firstChild.textContent;
+      var lbl = send.querySelector('.zb-button__label') || send;
+      var label = lbl.textContent;
       send.disabled = true;
-      send.firstChild.textContent = 'One moment.';
+      lbl.textContent = 'One moment.';
       fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
         method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' }
       }).then(function (res) {
@@ -68,7 +69,7 @@
         err.hidden = false;
       }).then(function () {
         send.disabled = false;
-        send.firstChild.textContent = label;
+        lbl.textContent = label;
       });
     });
   }
